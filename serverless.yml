@@ -1,0 +1,45 @@
+service: ddb-streams-demo
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: 20201221
+  region: eu-central-1
+
+plugins:
+  - serverless-iam-roles-per-function
+
+functions:
+  save-data:
+    handler: functions/save-data.saveData
+    events:
+      - http:
+          method: post
+          path: campaign
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:PutItem
+        Resource: !GetAtt DemoTable.Arn
+    environment:
+      demoTable: !Ref DemoTable
+
+
+resources:
+  Resources:
+    DemoTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: PK
+            AttributeType: S
+          - AttributeName: SK
+            AttributeType: S
+        KeySchema:
+          - AttributeName: PK
+            KeyType: HASH
+          - AttributeName: SK
+            KeyType: RANGE
