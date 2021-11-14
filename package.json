@@ -4,13 +4,15 @@
   "description": "",
   "main": "handler.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "sls": "sls",
+    "deploy": "sls deploy"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "aws-sdk": "^2.1027.0",
+    "serverless": "^2.66.1",
     "serverless-iam-roles-per-function": "^3.2.0"
   }
 }

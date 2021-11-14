@@ -26,6 +26,25 @@ functions:
     environment:
       demoTable: !Ref DemoTable
 
+#  ddb-stream-reveiver:
+#    handler: functions/ddb-stream-receiver.ddbStreamReceiver
+#    events:
+#      - stream:
+#          type: dynamodb
+#          arn:
+#            Fn::GetAtt:
+#              - DemoTable
+#              - StreamArn
+#          batchSize: 10
+#    iamRoleStatements:
+#      - Effect: Allow
+#        Action:
+#          - dynamodb:DescribeStream
+#          - dynamodb:GetRecords
+#          - dynamodb:GetShardIterator
+#          - dynamodb:ListStreams
+#        Resource:
+#          - "Fn::Join": [ "", [ "arn:aws:dynamodb:" , { "Ref": "AWS::Region" }, ":", { "Ref": "AWS::AccountId" } , ":table/DemoTable" ] ]
 
 resources:
   Resources:
@@ -43,3 +62,5 @@ resources:
             KeyType: HASH
           - AttributeName: SK
             KeyType: RANGE
+#        StreamSpecification:
+#          StreamViewType: NEW_IMAGE
